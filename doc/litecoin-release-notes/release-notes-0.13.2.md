@@ -1,16 +1,15 @@
 Gandercoin Core version 0.13.2 is now available from:
 
-  <https://download.gandercoin.org/gandercoin-0.13.2.1/>
+<https://download.gandercoin.com/gandercoin-0.13.2.1/>
 
 This is a new major version release, including new features, various bugfixes and performance improvements, as well as updated translations.
 It is recommended to upgrade to this version.
 
 Please report bugs using the issue tracker at github:
 
-  <https://github.com/gandercoin-project/gandercoin/issues>
+<https://github.com/gandercoin-project/gandercoin/issues>
 
-Compatibility
-==============
+# Compatibility
 
 Microsoft ended support for Windows XP on [April 8th, 2014](https://www.microsoft.com/en-us/WindowsForBusiness/end-of-xp-support),
 an OS initially released in 2001. This means that not even critical security
@@ -35,11 +34,9 @@ From 0.13.1 onwards OS X 10.7 is no longer supported. 0.13.0 was intended to wor
 but severe issues with the libc++ version on 10.7.x keep it from running reliably.
 0.13.1 now requires 10.8+, and will communicate that to 10.7 users, rather than crashing unexpectedly.
 
-Notable changes
-===============
+# Notable changes
 
-Signature validation using libsecp256k1
----------------------------------------
+## Signature validation using libsecp256k1
 
 ECDSA signatures inside Gandercoin transactions now use validation using
 [libsecp256k1](https://github.com/bitcoin-core/secp256k1) instead of OpenSSL.
@@ -53,21 +50,20 @@ Libsecp256k1 has undergone very extensive testing and validation.
 
 A side effect of this change is that libconsensus no longer depends on OpenSSL.
 
-Reduce upload traffic
----------------------
+## Reduce upload traffic
 
 A major part of the outbound traffic is caused by serving historic blocks to
 other nodes in initial block download state.
 
 It is now possible to reduce the total upload traffic via the `-maxuploadtarget`
-parameter. This is *not* a hard limit but a threshold to minimize the outbound
+parameter. This is _not_ a hard limit but a threshold to minimize the outbound
 traffic. When the limit is about to be reached, the uploaded data is cut by not
 serving historic blocks (blocks older than one week).
 Moreover, any SPV peer is disconnected when they request a filtered block.
 
 This option can be specified in MiB per day and is turned off by default
 (`-maxuploadtarget=0`).
-The recommended minimum is 144 * MAX_BLOCK_SIZE (currently 144MB) per day.
+The recommended minimum is 144 \* MAX_BLOCK_SIZE (currently 144MB) per day.
 
 Whitelisted peers will never be disconnected, although their traffic counts for
 calculating the target.
@@ -75,8 +71,7 @@ calculating the target.
 A more detailed documentation about keeping traffic low can be found in
 [/doc/reduce-traffic.md](/doc/reduce-traffic.md).
 
-Direct headers announcement (BIP 130)
--------------------------------------
+## Direct headers announcement (BIP 130)
 
 Between compatible peers, [BIP 130]
 (https://github.com/bitcoin/bips/blob/master/bip-0130.mediawiki)
@@ -85,8 +80,7 @@ announcing their headers directly, instead of just announcing the hash. In a
 reorganization, all new headers are sent, instead of just the new tip. This
 can often prevent an extra roundtrip before the actual block is downloaded.
 
-Memory pool limiting
---------------------
+## Memory pool limiting
 
 Previous versions of Gandercoin Core had their mempool limited by checking
 a transaction's fees against the node's minimum relay fee. There was no
@@ -108,11 +102,10 @@ minimum relay feerate. The initial minimum relay feerate is set to
 Gandercoin Core 0.13.2 also introduces new default policy limits on the length and
 size of unconfirmed transaction chains that are allowed in the mempool
 (generally limiting the length of unconfirmed chains to 25 transactions, with a
-total size of 101 KB).  These limits can be overriden using command line
+total size of 101 KB). These limits can be overriden using command line
 arguments; see the extended help (`--help -help-debug`) for more information.
 
-RPC: Random-cookie RPC authentication
--------------------------------------
+## RPC: Random-cookie RPC authentication
 
 When no `-rpcpassword` is specified, the daemon now uses a special 'cookie'
 file for authentication. This file is generated with random content when the
@@ -126,8 +119,7 @@ https://www.torproject.org/docs/tor-manual.html.en
 
 This allows running gandercoind without having to do any manual configuration.
 
-Relay: Any sequence of pushdatas in OP_RETURN outputs now allowed
------------------------------------------------------------------
+## Relay: Any sequence of pushdatas in OP_RETURN outputs now allowed
 
 Previously OP_RETURN outputs with a payload were only relayed and mined if they
 had a single pushdata. This restriction has been lifted to allow any
@@ -136,16 +128,14 @@ the OP_RETURN. The limit on OP_RETURN output size is now applied to the entire
 serialized scriptPubKey, 83 bytes by default. (the previous 80 byte default plus
 three bytes overhead)
 
-Relay: New and only new blocks relayed when pruning
----------------------------------------------------
+## Relay: New and only new blocks relayed when pruning
 
 When running in pruned mode, the client will now relay new blocks. When
 responding to the `getblocks` message, only hashes of blocks that are on disk
 and are likely to remain there for some reasonable time window (1 hour) will be
 returned (previously all relevant hashes were returned).
 
-Relay and Mining: Priority transactions
----------------------------------------
+## Relay and Mining: Priority transactions
 
 Gandercoin Core has a heuristic 'priority' based on coin value and age. This
 calculation is used for relaying of transactions which do not pay the
@@ -180,8 +170,7 @@ more accurate priority calculation for chained unconfirmed transactions will be
 restored. Community direction on this topic is particularly requested to help
 set project priorities.
 
-Automatically use Tor hidden services
--------------------------------------
+## Automatically use Tor hidden services
 
 Starting with Tor version 0.2.7.1 it is possible, through Tor's control socket
 API, to create and destroy 'ephemeral' hidden services programmatically.
@@ -198,8 +187,7 @@ a connection to Tor can be made. It can be configured with the `-listenonion`,
 `-torcontrol` and `-torpassword` settings. To show verbose debugging
 information, pass `-debug=tor`.
 
-Notifications through ZMQ
--------------------------
+## Notifications through ZMQ
 
 Gandercoind can now (optionally) asynchronously notify clients through a
 ZMQ-based PUB socket of the arrival of new transactions and blocks.
@@ -207,8 +195,7 @@ This feature requires installation of the ZMQ C API library 4.x and
 configuring its use through the command line or configuration file.
 Please see [docs/zmq.md](/doc/zmq.md) for details of operation.
 
-Wallet: Transaction fees
-------------------------
+## Wallet: Transaction fees
 
 Various improvements have been made to how the wallet calculates
 transaction fees.
@@ -233,8 +220,7 @@ the current minimum relay fee.
 Finally, a user can set the minimum fee rate for all transactions with
 `-mintxfee=<i>`, which defaults to 1000 satoshis per kB.
 
-Wallet: Negative confirmations and conflict detection
------------------------------------------------------
+## Wallet: Negative confirmations and conflict detection
 
 The wallet will now report a negative number for confirmations that indicates
 how deep in the block chain the conflict is found. For example, if a transaction
@@ -251,8 +237,7 @@ however. The new "trusted" field in the `listtransactions` RPC output
 indicates whether outputs of an unconfirmed transaction are considered
 spendable.
 
-Wallet: Merkle branches removed
--------------------------------
+## Wallet: Merkle branches removed
 
 Previously, every wallet transaction stored a Merkle branch to prove its
 presence in blocks. This wasn't being used for more than an expensive
@@ -260,8 +245,7 @@ sanity check. Since 0.13.2, these are no longer stored. When loading a
 0.13.2 wallet into an older version, it will automatically rescan to avoid
 failed checks.
 
-Wallet: Pruning
----------------
+## Wallet: Pruning
 
 With 0.13.2 it is possible to use wallet functionality in pruned mode.
 This can reduce the disk usage from currently around 6 GB to
@@ -284,8 +268,7 @@ as a whole: stored blocks could be served to other nodes.
 For further information about pruning, you may also consult the [release
 notes of Bitcoin Core v0.11.0](https://github.com/bitcoin/bitcoin/blob/v0.11.0/doc/release-notes.md#block-file-pruning).
 
-`NODE_BLOOM` service bit
-------------------------
+## `NODE_BLOOM` service bit
 
 Support for the `NODE_BLOOM` service bit, as described in [BIP
 111](https://github.com/bitcoin/bips/blob/master/bip-0111.mediawiki), has been
@@ -301,16 +284,14 @@ In this version, it is only enforced for peers that send protocol versions
 removed. It is recommended to update SPV clients to check for the `NODE_BLOOM`
 service bit for nodes that report versions newer than 70011.
 
-Option parsing behavior
------------------------
+## Option parsing behavior
 
 Command line options are now parsed strictly in the order in which they are
 specified. It used to be the case that `-X -noX` ends up, unintuitively, with X
 set, as `-X` had precedence over `-noX`. This is no longer the case. Like for
 other software, the last specified value for an option will hold.
 
-RPC: Low-level API changes
---------------------------
+## RPC: Low-level API changes
 
 - Monetary amounts can be provided as strings. This means that for example the
   argument to sendtoaddress can be "0.0001" instead of 0.0001. This can be an
@@ -344,8 +325,7 @@ now shows as:
 Note that the output of the RPC `decodescript` did not change because it is
 configured specifically to process scriptPubKey and not scriptSig scripts.
 
-RPC: SSL support dropped
-------------------------
+## RPC: SSL support dropped
 
 SSL support for RPC, previously enabled by the option `rpcssl` has been dropped
 from both the client and the server. This was done in preparation for removing
@@ -397,16 +377,14 @@ caching. A sample config for apache2 could look like:
 
     </VirtualHost>
 
-Other P2P Changes
------------------
+## Other P2P Changes
 
 The list of banned peers is now stored on disk rather than in memory.
 Restarting gandercoind will no longer clear out the list of banned peers; instead
-a new RPC call (`clearbanned`) can be used to manually clear the list.  The new
+a new RPC call (`clearbanned`) can be used to manually clear the list. The new
 `setban` RPC call can also be used to manually ban or unban a peer.
 
-Database cache memory increased
---------------------------------
+## Database cache memory increased
 
 As a result of growth of the UTXO set, performance with the prior default
 database cache of 100 MiB has suffered.
@@ -421,9 +399,7 @@ For nodes on low-memory systems, the database cache can be changed back to
 Note that the database cache setting has the most performance impact
 during initial sync of a node, and when catching up after downtime.
 
-
-gandercoin-cli: arguments privacy
-------------------------------
+## gandercoin-cli: arguments privacy
 
 The RPC command line client gained a new argument, `-stdin`
 to read extra arguments from standard input, one per line until EOF/Ctrl-D.
@@ -439,9 +415,7 @@ It is recommended to use this for sensitive information such as wallet
 passphrases, as command-line arguments can usually be read from the process
 table by any user on the system.
 
-
-C++11 and Python 3
-------------------
+## C++11 and Python 3
 
 Various code modernizations have been done. The Gandercoin Core code base has
 started using C++11. This means that a C++11-capable compiler is now needed for
@@ -453,9 +427,7 @@ When cross-compiling for a target that doesn't have C++11 libraries, configure w
 For running the functional tests in `qa/rpc-tests`, Python3.4 or higher is now
 required.
 
-
-Linux ARM builds
-----------------
+## Linux ARM builds
 
 Due to popular request, Linux ARM builds have been added to the uploaded
 executables.
@@ -474,8 +446,7 @@ possible to resolve them.
 Note that Android is not considered ARM Linux in this context. The executables
 are not expected to work out of the box on Android.
 
-BIP68 soft fork to enforce sequence locks for relative locktime
----------------------------------------------------------------
+## BIP68 soft fork to enforce sequence locks for relative locktime
 
 [BIP68][] introduces relative lock-time consensus-enforced semantics of
 the sequence number field to enable a signed transaction input to remain
@@ -485,8 +456,7 @@ outpoint.
 For more information about the implementation, see
 <https://github.com/bitcoin/bitcoin/pull/7184>
 
-BIP112 soft fork to enforce OP_CHECKSEQUENCEVERIFY
---------------------------------------------------
+## BIP112 soft fork to enforce OP_CHECKSEQUENCEVERIFY
 
 [BIP112][] redefines the existing OP_NOP3 as OP_CHECKSEQUENCEVERIFY (CSV)
 for a new opcode in the Gandercoin scripting system that in combination with
@@ -496,26 +466,25 @@ on the age of the output being spent.
 For more information about the implementation, see
 <https://github.com/bitcoin/bitcoin/pull/7524>
 
-BIP113 locktime enforcement soft fork
--------------------------------------
+## BIP113 locktime enforcement soft fork
 
-This release seeks to make mempool-only locktime enforcement using GetMedianTimePast() 
+This release seeks to make mempool-only locktime enforcement using GetMedianTimePast()
 a consensus rule.
 
 Gandercoin transactions currently may specify a locktime indicating when
-they may be added to a valid block.  Current consensus rules require
+they may be added to a valid block. Current consensus rules require
 that blocks have a block header time greater than the locktime specified
 in any transaction in that block.
 
 Miners get to choose what time they use for their header time, with the
 consensus rule being that no node will accept a block whose time is more
-than two hours in the future.  This creates a incentive for miners to
+than two hours in the future. This creates a incentive for miners to
 set their header times to future values in order to include locktimed
 transactions which weren't supposed to be included for up to two more
 hours.
 
 The consensus rules also specify that valid blocks may have a header
-time greater than that of the median of the 11 previous blocks.  This
+time greater than that of the median of the 11 previous blocks. This
 GetMedianTimePast() time has a key feature we generally associate with
 time: it can't go backwards.
 
@@ -548,9 +517,7 @@ approximately the expected time.
 For more information about the implementation, see
 <https://github.com/bitcoin/bitcoin/pull/6566>
 
-
-Compact Block support (BIP 152)
--------------------------------
+## Compact Block support (BIP 152)
 
 Support for block relay using the Compact Blocks protocol has been implemented
 in PR 8068.
@@ -569,9 +536,8 @@ relay differences on the network may result in blocks which include widely-
 discouraged transactions losing a stale block race, and therefore miners may
 wish to configure their node to take common relay policies into consideration.
 
+## Hierarchical Deterministic Key Generation
 
-Hierarchical Deterministic Key Generation
------------------------------------------
 Newly created wallets will use hierarchical deterministic key generation
 according to BIP32 (keypath m/0'/0'/k').
 Existing wallets will still use traditional key generation.
@@ -596,27 +562,25 @@ HD wallets are incompatible with older versions of Gandercoin Core.
 
 [Pull request](https://github.com/bitcoin/bitcoin/pull/8035/files), [BIP 32](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki)
 
-
-Mining transaction selection ("Child Pays For Parent")
-------------------------------------------------------
+## Mining transaction selection ("Child Pays For Parent")
 
 The mining transaction selection algorithm has been replaced with an algorithm
 that selects transactions based on their feerate inclusive of unconfirmed
-ancestor transactions.  This means that a low-fee transaction can become more
+ancestor transactions. This means that a low-fee transaction can become more
 likely to be selected if a high-fee transaction that spends its outputs is
 relayed.
 
 With this change, the `-blockminsize` command line option has been removed.
 
 The command line option `-blockmaxsize` remains an option to specify the
-maximum number of serialized bytes in a generated block.  In addition, the new
+maximum number of serialized bytes in a generated block. In addition, the new
 command line option `-blockmaxweight` has been added, which specifies the
 maximum "block weight" of a generated block, as defined by [BIP 141 (Segregated
 Witness)] (https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki).
 
 In preparation for Segregated Witness, the mining algorithm has been modified
 to optimize transaction selection for a given block weight, rather than a given
-number of serialized bytes in a block.  In this release, transaction selection
+number of serialized bytes in a block. In this release, transaction selection
 is unaffected by this distinction (as BIP 141 activation is not supported on
 mainnet in this release, see above), but in future releases and after BIP 141
 activation, these calculations would be expected to differ.
@@ -626,19 +590,17 @@ For optimal runtime performance, miners using this release should specify
 Additionally (or only) specifying `-blockmaxsize`, or relying on default
 settings for both, may result in performance degradation, as the logic to
 support `-blockmaxsize` performs additional computation to ensure that
-constraint is met.  (Note that for mainnet, in this release, the equivalent
+constraint is met. (Note that for mainnet, in this release, the equivalent
 parameter for `-blockmaxweight` would be four times the desired
-`-blockmaxsize`.  See [BIP 141]
+`-blockmaxsize`. See [BIP 141]
 (https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki) for additional
 details.)
 
 In the future, the `-blockmaxsize` option may be removed, as block creation is
-no longer optimized for this metric.  Feedback is requested on whether to
+no longer optimized for this metric. Feedback is requested on whether to
 deprecate or keep this command line option in future releases.
 
-
-Reindexing changes
-------------------
+## Reindexing changes
 
 In earlier versions, reindexing did validation while reading through the block
 files on disk. These two have now been split up, so that all blocks are known
@@ -655,9 +617,7 @@ using the command line option `-reindex-chainstate` (in addition to
 are assumed to be fine, but the chainstate is still corrupted. It is also
 useful for benchmarks.
 
-
-Removal of internal miner
---------------------------
+## Removal of internal miner
 
 As CPU mining has been useless for a long time, the internal miner has been
 removed in this release, and replaced with a simpler implementation for the
@@ -670,9 +630,7 @@ For testing, the `generate` call can still be used to mine a block, and a new
 RPC call `generatetoaddress` has been added to mine to a specific address. This
 works with wallet disabled.
 
-
-New bytespersigop implementation
---------------------------------
+## New bytespersigop implementation
 
 The former implementation of the bytespersigop filter accidentally broke bare
 multisig (which is meant to be controlled by the `permitbaremultisig` option),
@@ -683,9 +641,7 @@ replaced with a new implementation that rather than filter such transactions,
 instead treats them (for fee purposes only) as if they were in fact the size
 of a transaction actually using all 20 sigops.
 
-
-Low-level P2P changes
-----------------------
+## Low-level P2P changes
 
 - The optional new p2p message "feefilter" is implemented and the protocol
   version is bumped to 70013. Upon receiving a feefilter message from a peer,
@@ -719,9 +675,7 @@ Low-level P2P changes
 - Connections to peers who have recently been the first one to give us a valid
   new block or transaction are protected from disconnections since PR #8084.
 
-
-Low-level RPC changes
-----------------------
+## Low-level RPC changes
 
 - RPC calls have been added to output detailed statistics for individual mempool
   entries, as well as to calculate the in-mempool ancestors or descendants of a
@@ -739,10 +693,10 @@ Low-level RPC changes
 - Asm script outputs replacements for OP_NOP2 and OP_NOP3
 
   - OP_NOP2 has been renamed to OP_CHECKLOCKTIMEVERIFY by [BIP
-65](https://github.com/bitcoin/bips/blob/master/bip-0065.mediawiki)
+    65](https://github.com/bitcoin/bips/blob/master/bip-0065.mediawiki)
 
   - OP_NOP3 has been renamed to OP_CHECKSEQUENCEVERIFY by [BIP
-112](https://github.com/bitcoin/bips/blob/master/bip-0112.mediawiki)
+    112](https://github.com/bitcoin/bips/blob/master/bip-0112.mediawiki)
 
   - The following outputs are affected by this change:
 
@@ -763,9 +717,7 @@ Low-level RPC changes
 
 - New options were added to `fundrawtransaction`: `includeWatching`, `changeAddress`, `changePosition` and `feeRate`.
 
-
-Low-level ZMQ changes
-----------------------
+## Low-level ZMQ changes
 
 - Each ZMQ notification now contains an up-counting sequence number that allows
   listeners to detect lost notifications.
@@ -773,8 +725,7 @@ Low-level ZMQ changes
   therefore backward compatible. Each message type has its own counter.
   PR [#7762](https://github.com/bitcoin/bitcoin/pull/7762).
 
-Segregated witness soft fork
-----------------------------
+## Segregated witness soft fork
 
 Segregated witness (segwit) is a soft fork that, if activated, will
 allow transaction-producing software to separate (segregate) transaction
@@ -804,13 +755,13 @@ covered by the txid. This provides several immediate benefits:
 - **Weighting data based on how it affects node performance:** Some parts of
   each Gandercoin block need to be stored by nodes in order to validate future
   blocks; other parts of a block can be immediately forgotten (pruned) or used
-  only for helping other nodes sync their copy of the block chain.  One large
+  only for helping other nodes sync their copy of the block chain. One large
   part of the immediately prunable data are transaction signatures (witnesses),
   and segwit makes it possible to give a different "weight" to segregated
   witnesses to correspond with the lower demands they place on node resources.
   Specifically, each byte of a segregated witness is given a weight of 1, each
   other byte in a block is given a weight of 4, and the maximum allowed weight
-  of a block is 4 million.  Weighting the data this way better aligns the most
+  of a block is 4 million. Weighting the data this way better aligns the most
   profitable strategy for creating blocks with the long-term costs of block
   validation.
 
@@ -818,18 +769,18 @@ covered by the txid. This provides several immediate benefits:
   generated in segwit simplifies the design of secure signature generators
   (such as hardware wallets), reduces the amount of data the signature
   generator needs to download, and allows the signature generator to operate
-  more quickly.  This is made possible by having the generator sign the amount
+  more quickly. This is made possible by having the generator sign the amount
   of gandercoins they think they are spending, and by having full nodes refuse to
   accept those signatures unless the amount of gandercoins being spent is exactly
-  the same as was signed.  For non-segwit transactions, wallets instead had to
+  the same as was signed. For non-segwit transactions, wallets instead had to
   download the complete previous transactions being spent for every payment
   they made, which could be a slow operation on hardware wallets and in other
   situations where bandwidth or computation speed was constrained.
 
 - **Linear scaling of sighash operations:** In 2015 a block was produced that
   required about 25 seconds to validate on modern hardware because of the way
-  transaction signature hashes are performed.  Other similar blocks, or blocks
-  that could take even longer to validate, can still be produced today.  The
+  transaction signature hashes are performed. Other similar blocks, or blocks
+  that could take even longer to validate, can still be produced today. The
   problem that caused this can't be fixed in a soft fork without unwanted
   side-effects, but transactions that opt-in to using segwit will now use a
   different signature method that doesn't suffer from this problem and doesn't
@@ -837,13 +788,13 @@ covered by the txid. This provides several immediate benefits:
 
 - **Increased security for multisig:** Gandercoin addresses (both P2PKH addresses
   that start with a '1' and P2SH addresses that start with a '3' or 'M') use a hash
-  function known as RIPEMD-160.  For P2PKH addresses, this provides about 160
+  function known as RIPEMD-160. For P2PKH addresses, this provides about 160
   bits of security---which is beyond what cryptographers believe can be broken
-  today.  But because P2SH is more flexible, only about 80 bits of security is
+  today. But because P2SH is more flexible, only about 80 bits of security is
   provided per address. Although 80 bits is very strong security, it is within
   the realm of possibility that it can be broken by a powerful adversary.
   Segwit allows advanced transactions to use the SHA256 hash function instead,
-  which provides about 128 bits of security  (that is 281 trillion times as
+  which provides about 128 bits of security (that is 281 trillion times as
   much security as 80 bits and is equivalent to the maximum bits of security
   believed to be provided by Gandercoin's choice of parameters for its Elliptic
   Curve Digital Security Algorithm [ECDSA].)
@@ -851,7 +802,7 @@ covered by the txid. This provides several immediate benefits:
 - **More efficient almost-full-node security** Satoshi Nakamoto's original
   Bitcoin paper describes a method for allowing newly-started full nodes to
   skip downloading and validating some data from historic blocks that are
-  protected by large amounts of proof of work.  Unfortunately, Nakamoto's
+  protected by large amounts of proof of work. Unfortunately, Nakamoto's
   method can't guarantee that a newly-started node using this method will
   produce an accurate copy of Gandercoin's current ledger (called the UTXO set),
   making the node vulnerable to falling out of consensus with other nodes.
@@ -860,13 +811,13 @@ covered by the txid. This provides several immediate benefits:
   possible for a node to optionally skip downloading some blockchain data
   (specifically, the segregated witnesses) while still ensuring that the node
   can build an accurate copy of the UTXO set for the block chain with the most
-  proof of work.  Segwit enables this capability at the consensus layer, but
+  proof of work. Segwit enables this capability at the consensus layer, but
   note that Gandercoin Core does not provide an option to use this capability as
   of this 0.13.2 release.
 
 - **Script versioning:** Segwit makes it easy for future soft forks to allow
   Gandercoin users to individually opt-in to almost any change in the Gandercoin
-  Script language when those users receive new transactions.  Features
+  Script language when those users receive new transactions. Features
   currently being researched by Bitcoin and Gandercoin Core contributors that may
   use this capability include support for Schnorr signatures, which can improve
   the privacy and efficiency of multisig transactions (or transactions with
@@ -885,19 +836,17 @@ signal support for segwit, after another 8,064 blocks, segwit will
 be required.
 
 For more information about segwit, please see the [segwit FAQ][], the
-[segwit wallet developers guide][] or BIPs [141][BIP141], [143][BIP143],
-[144][BIP144], and [145][BIP145].
+[segwit wallet developers guide][] or BIPs [141][bip141], [143][bip143],
+[144][bip144], and [145][bip145].
 
-[Segwit FAQ]: https://bitcoincore.org/en/2016/01/26/segwit-benefits/
+[segwit faq]: https://bitcoincore.org/en/2016/01/26/segwit-benefits/
 [segwit wallet developers guide]: https://bitcoincore.org/en/segwit_wallet_dev/
-[BIP141]: https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki
-[BIP143]: https://github.com/bitcoin/bips/blob/master/bip-0143.mediawiki
-[BIP144]: https://github.com/bitcoin/bips/blob/master/bip-0144.mediawiki
-[BIP145]: https://github.com/bitcoin/bips/blob/master/bip-0145.mediawiki
+[bip141]: https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki
+[bip143]: https://github.com/bitcoin/bips/blob/master/bip-0143.mediawiki
+[bip144]: https://github.com/bitcoin/bips/blob/master/bip-0144.mediawiki
+[bip145]: https://github.com/bitcoin/bips/blob/master/bip-0145.mediawiki
 
-
-Null dummy soft fork
--------------------
+## Null dummy soft fork
 
 Combined with the segwit soft fork is an additional change that turns a
 long-existing network relay policy into a consensus rule. The
@@ -913,7 +862,7 @@ causing other problems.
 
 Since Gandercoin Core 0.10.0, nodes have defaulted to only relaying and
 mining transactions whose dummy element was a null value (0x00, also
-called OP_0).  The null dummy soft fork turns this relay rule into a
+called OP_0). The null dummy soft fork turns this relay rule into a
 consensus rule both for non-segwit transactions and segwit transactions,
 so that this method of mutating transactions is permanently eliminated
 from the network.
@@ -924,20 +873,17 @@ as segwit.
 
 For more information, please see [BIP147][].
 
-[BIP147]: https://github.com/bitcoin/bips/blob/master/bip-0147.mediawiki
+[bip147]: https://github.com/bitcoin/bips/blob/master/bip-0147.mediawiki
 
-Low-level RPC changes
----------------------
+## Low-level RPC changes
 
 - `importprunedfunds` only accepts two required arguments. Some versions accept
   an optional third arg, which was always ignored. Make sure to never pass more
   than two arguments.
 
+## Linux ARM builds
 
-Linux ARM builds
-----------------
-
-Pre-built Linux ARM binaries have been added to the set of uploaded executables. 
+Pre-built Linux ARM binaries have been added to the set of uploaded executables.
 Additional detail on the ARM architecture targeted by each is provided below.
 
 The following extra files can be found in the download directory or torrent:
@@ -959,13 +905,11 @@ ARMv6 architecture devices that are not compatible with ARMv7-A or ARMv8-A.
 Note that Android is not considered ARM Linux in this context. The executables
 are not expected to work out of the box on Android.
 
-
-Change to wallet handling of mempool rejection
------------------------------------------------
+## Change to wallet handling of mempool rejection
 
 When a newly created transaction failed to enter the mempool due to
 the limits on chains of unconfirmed transactions the sending RPC
-calls would return an error.  The transaction would still be queued
+calls would return an error. The transaction would still be queued
 in the wallet and, once some of the parent transactions were
 confirmed, broadcast after the software was restarted.
 
@@ -977,8 +921,7 @@ Transactions in the wallet which cannot be accepted into the mempool
 can be abandoned with the previously existing abandontransaction RPC
 (or in the GUI via a context menu on the transaction).
 
-Credits
-=======
+# Credits
 
 Thanks to everyone who directly contributed to this release:
 

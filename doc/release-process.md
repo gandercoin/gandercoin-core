@@ -1,28 +1,27 @@
-Release Process
-====================
+# Release Process
 
 Before every release candidate:
 
-* Update translations (ping wumpus on IRC) see [translation_process.md](https://github.com/bitcoin/bitcoin/blob/master/doc/translation_process.md#synchronising-translations).
+- Update translations (ping wumpus on IRC) see [translation_process.md](https://github.com/bitcoin/bitcoin/blob/master/doc/translation_process.md#synchronising-translations).
 
-* Update manpages, see [gen-manpages.sh](https://github.com/gandercoin-project/gandercoin/blob/master/contrib/devtools/README.md#gen-manpagessh).
+- Update manpages, see [gen-manpages.sh](https://github.com/gandercoin-project/gandercoin/blob/master/contrib/devtools/README.md#gen-manpagessh).
 
 Before every minor and major release:
 
-* Update [bips.md](bips.md) to account for changes since the last release.
-* Update version in sources (see below)
-* Write release notes (see below)
-* Update `src/chainparams.cpp` nMinimumChainWork with information from the getblockchaininfo rpc.
-* Update `src/chainparams.cpp` defaultAssumeValid  with information from the getblockhash rpc.
+- Update [bips.md](bips.md) to account for changes since the last release.
+- Update version in sources (see below)
+- Write release notes (see below)
+- Update `src/chainparams.cpp` nMinimumChainWork with information from the getblockchaininfo rpc.
+- Update `src/chainparams.cpp` defaultAssumeValid with information from the getblockhash rpc.
   - The selected value must not be orphaned so it may be useful to set the value two blocks back from the tip.
   - Testnet should be set some tens of thousands back from the tip due to reorgs there.
   - This update should be reviewed with a reindex-chainstate with assumevalid=0 to catch any defect
-     that causes rejection of blocks in the past history.
+    that causes rejection of blocks in the past history.
 
 Before every major release:
 
-* Update hardcoded [seeds](/contrib/seeds/README.md), see [this pull request](https://github.com/bitcoin/bitcoin/pull/7415) for an example.
-* Update [`BLOCK_CHAIN_SIZE`](/src/qt/intro.cpp) to the current size plus some overhead.
+- Update hardcoded [seeds](/contrib/seeds/README.md), see [this pull request](https://github.com/bitcoin/bitcoin/pull/7415) for an example.
+- Update [`BLOCK_CHAIN_SIZE`](/src/qt/intro.cpp) to the current size plus some overhead.
 
 ### First time / New builders
 
@@ -41,15 +40,15 @@ Check out the source code in the following directory hierarchy.
 Update the following:
 
 - `configure.ac`:
-    - `_CLIENT_VERSION_MAJOR`
-    - `_CLIENT_VERSION_MINOR`
-    - `_CLIENT_VERSION_REVISION`
-    - Don't forget to set `_CLIENT_VERSION_IS_RELEASE` to `true`
+  - `_CLIENT_VERSION_MAJOR`
+  - `_CLIENT_VERSION_MINOR`
+  - `_CLIENT_VERSION_REVISION`
+  - Don't forget to set `_CLIENT_VERSION_IS_RELEASE` to `true`
 - `src/clientversion.h`: (this mirrors `configure.ac` - see issue #3539)
-    - `CLIENT_VERSION_MAJOR`
-    - `CLIENT_VERSION_MINOR`
-    - `CLIENT_VERSION_REVISION`
-    - Don't forget to set `CLIENT_VERSION_IS_RELEASE` to `true`
+  - `CLIENT_VERSION_MAJOR`
+  - `CLIENT_VERSION_MINOR`
+  - `CLIENT_VERSION_REVISION`
+  - Don't forget to set `CLIENT_VERSION_IS_RELEASE` to `true`
 - `doc/README.md` and `doc/README_windows.txt`
 - `doc/Doxyfile`: `PROJECT_NUMBER` contains the full version
 - `contrib/gitian-descriptors/*.yml`: usually one'd want to do this on master after branching off the release - but be sure to at least do it before a new major release
@@ -142,11 +141,11 @@ The gbuild invocations below <b>DO NOT DO THIS</b> by default.
 
 Build output expected:
 
-  1. source tarball (`gandercoin-${VERSION}.tar.gz`)
-  2. linux 32-bit and 64-bit dist tarballs (`gandercoin-${VERSION}-linux[32|64].tar.gz`)
-  3. windows 32-bit and 64-bit unsigned installers and dist zips (`gandercoin-${VERSION}-win[32|64]-setup-unsigned.exe`, `gandercoin-${VERSION}-win[32|64].zip`)
-  4. OS X unsigned installer and dist tarball (`gandercoin-${VERSION}-osx-unsigned.dmg`, `gandercoin-${VERSION}-osx64.tar.gz`)
-  5. Gitian signatures (in `gitian.sigs.ltc/${VERSION}-<linux|{win,osx}-unsigned>/(your Gitian key)/`)
+1. source tarball (`gandercoin-${VERSION}.tar.gz`)
+2. linux 32-bit and 64-bit dist tarballs (`gandercoin-${VERSION}-linux[32|64].tar.gz`)
+3. windows 32-bit and 64-bit unsigned installers and dist zips (`gandercoin-${VERSION}-win[32|64]-setup-unsigned.exe`, `gandercoin-${VERSION}-win[32|64].zip`)
+4. OS X unsigned installer and dist tarball (`gandercoin-${VERSION}-osx-unsigned.dmg`, `gandercoin-${VERSION}-osx64.tar.gz`)
+5. Gitian signatures (in `gitian.sigs.ltc/${VERSION}-<linux|{win,osx}-unsigned>/(your Gitian key)/`)
 
 ### Verify other gitian builders signatures to your own. (Optional)
 
@@ -217,6 +216,7 @@ sha256sum * > SHA256SUMS
 ```
 
 The list of files should be:
+
 ```
 gandercoin-${VERSION}-aarch64-linux-gnu.tar.gz
 gandercoin-${VERSION}-arm-linux-gnueabihf.tar.gz
@@ -230,31 +230,34 @@ gandercoin-${VERSION}-win32.zip
 gandercoin-${VERSION}-win64-setup.exe
 gandercoin-${VERSION}-win64.zip
 ```
+
 The `*-debug*` files generated by the gitian build contain debug symbols
 for troubleshooting by developers. It is assumed that anyone that is interested
 in debugging can run gitian to generate the files for themselves. To avoid
 end-user confusion about which file to pick, as well as save storage
-space *do not upload these to the gandercoin.org server, nor put them in the torrent*.
+space _do not upload these to the gandercoin.com server, nor put them in the torrent_.
 
 - GPG-sign it, delete the unsigned file:
+
 ```
 gpg --digest-algo sha256 --clearsign SHA256SUMS # outputs SHA256SUMS.asc
 rm SHA256SUMS
 ```
+
 (the digest algorithm is forced to sha256 to avoid confusion of the `Hash:` header that GPG adds with the SHA256 used for the files)
 Note: check that SHA256SUMS itself doesn't end up in SHA256SUMS, which is a spurious/nonsensical entry.
 
-- Upload zips and installers, as well as `SHA256SUMS.asc` from last step, to the gandercoin.org server.
+- Upload zips and installers, as well as `SHA256SUMS.asc` from last step, to the gandercoin.com server.
 
 ```
 
-- Update gandercoin.org version
+- Update gandercoin.com version
 
 - Announce the release:
 
   - gandercoin-dev and gandercoin-dev mailing list
 
-  - blog.gandercoin.org blog post
+  - blog.gandercoin.com blog post
 
   - Update title of #gandercoin and #gandercoin-dev on Freenode IRC
 
@@ -265,3 +268,4 @@ Note: check that SHA256SUMS itself doesn't end up in SHA256SUMS, which is a spur
   - Create a [new GitHub release](https://github.com/gandercoin-project/gandercoin/releases/new) with a link to the archived release notes.
 
   - Celebrate
+```

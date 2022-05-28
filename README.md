@@ -1,12 +1,10 @@
-Gandercoin Core integration/staging tree
-=====================================
+# Gandercoin Core integration/staging tree
 
 [![Build Status](https://travis-ci.org/gandercoin-project/gandercoin.svg?branch=master)](https://travis-ci.org/gandercoin-project/gandercoin)
 
-https://gandercoin.org
+https://gandercoin.com
 
-What is Gandercoin?
-----------------
+## What is Gandercoin?
 
 Gandercoin is an experimental digital currency that enables instant payments to
 anyone, anywhere in the world. Gandercoin uses peer-to-peer technology to operate
@@ -15,16 +13,14 @@ out collectively by the network. Gandercoin Core is the name of open source
 software which enables the use of this currency.
 
 For more information, as well as an immediately useable, binary version of
-the Gandercoin Core software, see [https://gandercoin.org](https://gandercoin.org).
+the Gandercoin Core software, see [https://gandercoin.com](https://gandercoin.com).
 
-License
--------
+## License
 
 Gandercoin Core is released under the terms of the MIT license. See [COPYING](COPYING) for more
 information or see https://opensource.org/licenses/MIT.
 
-Development Process
--------------------
+## Development Process
 
 The `master` branch is regularly built and tested, but is not guaranteed to be
 completely stable. [Tags](https://github.com/gandercoin-project/gandercoin/tags) are created
@@ -38,8 +34,7 @@ on a patch set.
 
 Developer IRC can be found on Freenode at #gandercoin-dev.
 
-Testing
--------
+## Testing
 
 Testing and code review is the bottleneck for development; we get more pull
 requests than we can review and test on short notice. Please be patient and help out by testing
@@ -66,8 +61,7 @@ code. This is especially important for large or high-risk changes. It is useful
 to add a test plan to the pull request description if testing the changes is
 not straightforward.
 
-Translations
-------------
+## Translations
 
 We only accept translation fixes that are submitted through [Bitcoin Core's Transifex page](https://www.transifex.com/projects/p/bitcoin/).
 Translations are converted to Gandercoin periodically.

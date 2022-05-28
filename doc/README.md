@@ -1,14 +1,13 @@
-Gandercoin Core 0.14.2
-=====================
+# Gandercoin Core 0.14.2
 
-Setup
----------------------
+## Setup
+
 Gandercoin Core is the original Gandercoin client and it builds the backbone of the network. However, it downloads and stores the entire history of Gandercoin transactions (which is currently several GBs); depending on the speed of your computer and network connection, the synchronization process can take anywhere from a few hours to a day or more.
 
-To download Gandercoin Core, visit [gandercoin.org](https://gandercoin.org).
+To download Gandercoin Core, visit [gandercoin.com](https://gandercoin.com).
 
-Running
----------------------
+## Running
+
 The following are some helpful notes on how to run Gandercoin on your native platform.
 
 ### Unix
@@ -28,13 +27,13 @@ Drag Gandercoin-Core to your applications folder, and then run Gandercoin-Core.
 
 ### Need Help?
 
-* See the documentation at the [Gandercoin Wiki](https://gandercoin.info/)
-for help and more information.
-* Ask for help on [#gandercoin](http://webchat.freenode.net?channels=gandercoin) on Freenode. If you don't have an IRC client use [webchat here](http://webchat.freenode.net?channels=gandercoin).
-* Ask for help on the [GandercoinTalk](https://gandercointalk.io/) forums.
+- See the documentation at the [Gandercoin Wiki](https://gandercoin.info/)
+  for help and more information.
+- Ask for help on [#gandercoin](http://webchat.freenode.net?channels=gandercoin) on Freenode. If you don't have an IRC client use [webchat here](http://webchat.freenode.net?channels=gandercoin).
+- Ask for help on the [GandercoinTalk](https://gandercointalk.io/) forums.
 
-Building
----------------------
+## Building
+
 The following are developer notes on how to build Gandercoin on your native platform. They are not complete guides, but include notes on the necessary libraries, compile flags, etc.
 
 - [OS X Build Notes](build-osx.md)
@@ -43,8 +42,8 @@ The following are developer notes on how to build Gandercoin on your native plat
 - [OpenBSD Build Notes](build-openbsd.md)
 - [Gitian Building Guide](gitian-building.md)
 
-Development
----------------------
+## Development
+
 The Gandercoin repo's [root README](/README.md) contains relevant information on the development process and automated testing.
 
 - [Developer Notes](developer-notes.md)
@@ -61,10 +60,12 @@ The Gandercoin repo's [root README](/README.md) contains relevant information on
 - [Benchmarking](benchmarking.md)
 
 ### Resources
-* Discuss on the [GandercoinTalk](https://gandercointalk.io/) forums.
-* Discuss general Gandercoin development on #gandercoin-dev on Freenode. If you don't have an IRC client use [webchat here](http://webchat.freenode.net/?channels=gandercoin-dev).
+
+- Discuss on the [GandercoinTalk](https://gandercointalk.io/) forums.
+- Discuss general Gandercoin development on #gandercoin-dev on Freenode. If you don't have an IRC client use [webchat here](http://webchat.freenode.net/?channels=gandercoin-dev).
 
 ### Miscellaneous
+
 - [Assets Attribution](assets-attribution.md)
 - [Files](files.md)
 - [Fuzz-testing](fuzzing.md)
@@ -73,8 +74,8 @@ The Gandercoin repo's [root README](/README.md) contains relevant information on
 - [Init Scripts (systemd/upstart/openrc)](init.md)
 - [ZMQ](zmq.md)
 
-License
----------------------
+## License
+
 Distributed under the [MIT software license](/COPYING).
 This product includes software developed by the OpenSSL Project for use in the [OpenSSL Toolkit](https://www.openssl.org/). This product includes
 cryptographic software written by Eric Young ([eay@cryptsoft.com](mailto:eay@cryptsoft.com)), and UPnP software written by Thomas Bernard.

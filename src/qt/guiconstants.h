@@ -49,7 +49,7 @@ static const int MAX_URI_LENGTH = 255;
 #define SPINNER_FRAMES 36
 
 #define QAPP_ORG_NAME "Gandercoin"
-#define QAPP_ORG_DOMAIN "gandercoin.org"
+#define QAPP_ORG_DOMAIN "gandercoin.com"
 #define QAPP_APP_NAME_DEFAULT "Gandercoin-Qt"
 #define QAPP_APP_NAME_TESTNET "Gandercoin-Qt-testnet"
 
