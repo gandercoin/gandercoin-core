@@ -144,7 +144,7 @@ public:
         checkpointData = (CCheckpointData) {
             boost::assign::map_list_of
             (  0, uint256S("0xd12b022c06ff7d21d457a07bb61a63dbbd6b6f0317ad7f41e8be6f918a16208d"))
-            (  1, uint256S("0xd12b022c06ff7d21d457a07bb61a63dbbd6b6f0317ad7f41e8be6f918a16208d"))
+            (  381, uint256S("548d4b7b0ea535fc42ae45db807d53b28a50da24753d6d24f69a0fb8cab8b7b2"))
             // (  4032, uint256S("0x9ce90e427198fc0ef05e5905ce3503725b80e26afd35a987965fd7e3d9cf0846"))
             // (  8064, uint256S("0xeb984353fc5190f210651f150c40b8a4bab9eeeff0b729fcb3987da694430d70"))
             // ( 16128, uint256S("0x602edf1859b7f9a6af809f1d9b0e6cb66fdc1d4d9dcd7a4bec03e12a1ccd153d"))
@@ -228,7 +228,7 @@ public:
         vSeeds.clear();
         // nodes with support for servicebits filtering should be at the top
         vSeeds.push_back(CDNSSeedData("52.202.239.59", "52.202.239.59"));
-        vSeeds.push_back(CDNSSeedData("34.192.93.149", "34.192.93.149", true));
+        // vSeeds.push_back(CDNSSeedData("34.192.93.149", "34.192.93.149", true));
         // vSeeds.push_back(CDNSSeedData("loshan.co.uk", "seed-b.gandercoin.loshan.co.uk", true));
         // vSeeds.push_back(CDNSSeedData("thrasher.io", "dnsseed-testnet.thrasher.io", true));
 
