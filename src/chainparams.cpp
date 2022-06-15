@@ -117,7 +117,7 @@ public:
         genesis = CreateGenesisBlock(1653732641, 2002564874, 0x1e0ffff0, 1, 55 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
         assert(consensus.hashGenesisBlock == uint256S("0xd12b022c06ff7d21d457a07bb61a63dbbd6b6f0317ad7f41e8be6f918a16208d"));
-        assert(genesis.hashMerkleRoot == uint256S("0x918203092152d6934014939d5086e97e0dffdceaaa7acfeb02a85df96e1e8a09"));
+        assert(genesis.hashMerkleRoot == uint256S("ddd0x918203092152d6934014939d5086e97e0dffdceaaa7acfeb02a85df96e1e8a09"));
 
         // Note that of those with the service bits flag, most only support a subset of possible options
         vSeeds.push_back(CDNSSeedData("52.202.239.59", "52.202.239.59", true));
